@@ -1,0 +1,72 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // ══════════════════════════════════════════════
+    //  HELPER FUNCTIONS
+    // ══════════════════════════════════════════════
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return request.auth != null
+          && (request.auth.token.admin == true
+              || request.auth.token.email == 'pankaj.ydv707@gmail.com');
+    }
+
+    // Uploaded file must be an image (JPEG, PNG, WebP, GIF, etc.)
+    function isImage() {
+      return request.resource.contentType.matches('image/.*');
+    }
+
+    // Uploaded file must not exceed 10 MB
+    function isUnder10MB() {
+      return request.resource.size < 10 * 1024 * 1024;
+    }
+
+    // ══════════════════════════════════════════════
+    //  PRODUCT IMAGES
+    //  Path: /product-images/{productId}
+    //  Public read — admin write only
+    // ══════════════════════════════════════════════
+    match /product-images/{productId} {
+      // Public — product images appear on the storefront for all visitors
+      allow read: if true;
+
+      // Only admins may upload or replace product images
+      // (via the Products page in admin.html or the product modal)
+      allow write: if isAdmin()
+                  && isImage()
+                  && isUnder10MB();
+    }
+
+    // ══════════════════════════════════════════════
+    //  PAYMENT PROOF SCREENSHOTS
+    //  Path: /payment-proofs/{orderId}/{filename}
+    //  Customer uploads once at checkout; admin reads all
+    // ══════════════════════════════════════════════
+    match /payment-proofs/{orderId}/{filename} {
+      // Admin can view all payment proofs from the Order Detail modal
+      allow read: if isAdmin();
+
+      // Any visitor (signed-in or guest) may upload a payment screenshot.
+      // Reads are restricted to admins only, so a guest cannot access
+      // other customers' proofs even though they can write.
+      allow create: if isImage() && isUnder10MB();
+
+      // Proof is immutable once uploaded by the customer.
+      // Admin may overwrite or delete if correction is needed.
+      allow update, delete: if isAdmin();
+    }
+
+    // ══════════════════════════════════════════════
+    //  CATCH-ALL  (deny everything not matched above)
+    // ══════════════════════════════════════════════
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

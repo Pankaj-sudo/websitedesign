@@ -1,0 +1,95 @@
+{
+  "indexes": [
+
+    {
+      "comment": "Orders list — admin dashboard, ordered newest first",
+      "collectionGroup": "orders",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "created_at", "order": "DESCENDING" }
+      ]
+    },
+
+    {
+      "comment": "Cleanup function — pending orders older than 48 hours",
+      "collectionGroup": "orders",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "payment_status", "order": "ASCENDING" },
+        { "fieldPath": "created_at",     "order": "ASCENDING" }
+      ]
+    },
+
+    {
+      "comment": "Order tracking — lookup by order_id + customer_email",
+      "collectionGroup": "orders",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "order_id",       "order": "ASCENDING" },
+        { "fieldPath": "customer_email", "order": "ASCENDING" }
+      ]
+    },
+
+    {
+      "comment": "Dashboard KPI — shipped today (order_status + updated_at)",
+      "collectionGroup": "orders",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "order_status", "order": "ASCENDING" },
+        { "fieldPath": "updated_at",   "order": "DESCENDING" }
+      ]
+    },
+
+    {
+      "comment": "Dashboard KPI — pending verification count",
+      "collectionGroup": "orders",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "payment_status", "order": "ASCENDING" },
+        { "fieldPath": "created_at",     "order": "DESCENDING" }
+      ]
+    },
+
+    {
+      "comment": "Status history subcollection — newest first",
+      "collectionGroup": "order_status_history",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "changed_at", "order": "DESCENDING" }
+      ]
+    },
+
+    {
+      "comment": "Products — all active products for main shop grid",
+      "collectionGroup": "products",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "is_active",  "order": "ASCENDING" },
+        { "fieldPath": "created_at", "order": "DESCENDING" }
+      ]
+    },
+
+    {
+      "comment": "Products — active new arrivals section",
+      "collectionGroup": "products",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "is_active",      "order": "ASCENDING" },
+        { "fieldPath": "is_new_arrival", "order": "ASCENDING" },
+        { "fieldPath": "created_at",     "order": "DESCENDING" }
+      ]
+    },
+
+    {
+      "comment": "Admin logs — audit trail ordered by timestamp",
+      "collectionGroup": "admin_logs",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "timestamp", "order": "DESCENDING" }
+      ]
+    }
+
+  ],
+
+  "fieldOverrides": []
+}

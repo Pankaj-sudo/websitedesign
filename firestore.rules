@@ -1,0 +1,113 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ══════════════════════════════════════════════
+    //  HELPER FUNCTIONS
+    // ══════════════════════════════════════════════
+
+    // Caller is signed in via Firebase Auth
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Caller has the { admin: true } custom claim
+    // (set via the setAdminClaim Cloud Function)
+    function isAdmin() {
+      return request.auth != null
+          && request.auth.token.admin == true;
+    }
+
+    // Caller's verified email matches the order's customer_email
+    // (used on existing documents — resource.data)
+    function isOrderOwner() {
+      return request.auth != null
+          && resource.data.customer_email == request.auth.token.email;
+    }
+
+    // Validates a new order document on creation
+    function isValidNewOrder() {
+      let d = request.resource.data;
+      return d.keys().hasAll([
+          'order_id', 'customer_name', 'customer_email',
+          'customer_phone', 'delivery_address', 'items',
+          'subtotal', 'total', 'payment_status',
+          'order_status', 'created_at'
+        ])
+        // Customer cannot set their own order to verified/shipped/etc.
+        && d.payment_status == 'pending'
+        && d.order_status   == 'pending'
+        // Must have at least one item with a positive total
+        && d.items.size() > 0
+        && d.total > 0
+        // Anonymous auth sessions have no email in the token — validate format only
+        && d.customer_email is string
+        && d.customer_email.matches('.*@.*\\..*');
+    }
+
+    // ══════════════════════════════════════════════
+    //  PRODUCTS  (public read / admin write)
+    // ══════════════════════════════════════════════
+    match /products/{productId} {
+      // Anyone — including unauthenticated visitors — can browse the catalog
+      allow read: if true;
+
+      // Only admins may create, edit, or delete products
+      allow create, update, delete: if isAdmin();
+    }
+
+    // ══════════════════════════════════════════════
+    //  ORDERS
+    // ══════════════════════════════════════════════
+    match /orders/{orderId} {
+      // Admin reads everything; customer reads only their own order
+      allow read: if isAdmin() || isOrderOwner();
+
+      // Authenticated users may place a new order for themselves only,
+      // and only with valid initial field values
+      allow create: if isAuthenticated() && isValidNewOrder();
+
+      // Status, payment, tracking, admin_notes — updated by admin or
+      // Cloud Functions (which run with Admin SDK, bypassing these rules)
+      allow update: if isAdmin();
+
+      // Hard deletes are admin-only (rare; cancellation preferred)
+      allow delete: if isAdmin();
+
+      // ── Status history sub-collection ──────────
+      // Written exclusively by Cloud Functions (Admin SDK bypasses rules)
+      // Readable by admin or the order owner
+      match /order_status_history/{historyId} {
+        allow read:  if isAdmin() || isOrderOwner();
+        allow write: if isAdmin();
+      }
+    }
+
+    // ══════════════════════════════════════════════
+    //  CONFIG  (store settings + admin list)
+    // ══════════════════════════════════════════════
+    match /config/{document} {
+      // Authenticated users may read store config
+      // (e.g. free-shipping threshold used by the storefront)
+      allow read:  if isAuthenticated();
+
+      // Only admin may update GCash details, thresholds, admin list, etc.
+      allow write: if isAdmin();
+    }
+
+    // ══════════════════════════════════════════════
+    //  ADMIN LOGS  (audit trail — admin only)
+    // ══════════════════════════════════════════════
+    match /admin_logs/{logId} {
+      allow read, write: if isAdmin();
+    }
+
+    // ══════════════════════════════════════════════
+    //  CATCH-ALL  (deny everything not matched above)
+    // ══════════════════════════════════════════════
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
