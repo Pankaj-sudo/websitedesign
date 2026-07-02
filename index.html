@@ -770,9 +770,74 @@
         transition-duration: 0.001s !important;
       }
     }
+
+    /* ════════════════════════════════════════
+       PRELOADER
+    ════════════════════════════════════════ */
+    #preloader {
+      position: fixed; inset: 0; z-index: 9500;
+      background: var(--bg);
+      display: flex; align-items: center; justify-content: center;
+      transition: opacity 0.5s cubic-bezier(0.4,0,1,1);
+    }
+    #preloader.pl-done { opacity: 0; pointer-events: none; }
+    .pl-inner { display: flex; flex-direction: column; align-items: center; gap: 26px; }
+    .pl-logo {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: 2.1rem; font-weight: 800; color: var(--primary);
+      display: flex; align-items: center; gap: 5px;
+      opacity: 0; transform: translateY(10px);
+      animation: plLogoIn 0.6s cubic-bezier(0.16,1,0.3,1) 0.15s forwards;
+    }
+    .pl-logo-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--accent-mid); flex-shrink: 0;
+      transform: scale(0);
+      animation: plDotPop 0.45s cubic-bezier(0.16,1,0.3,1) 0.65s forwards;
+    }
+    @keyframes plLogoIn { to { opacity: 1; transform: translateY(0); } }
+    @keyframes plDotPop  { to { transform: scale(1); } }
+    .pl-track {
+      width: 150px; height: 2px; border-radius: 99px;
+      background: var(--border); overflow: hidden;
+      opacity: 0; animation: plTrackIn 0.3s ease 0.55s forwards;
+    }
+    @keyframes plTrackIn { to { opacity: 1; } }
+    .pl-fill {
+      height: 100%; width: 100%; border-radius: 99px;
+      background: linear-gradient(90deg, var(--primary), var(--primary-light), var(--accent-mid));
+      transform: scaleX(0); transform-origin: left;
+      animation: plFillBar 0.9s cubic-bezier(0.37,0,0.63,1) 0.6s forwards;
+    }
+    @keyframes plFillBar { to { transform: scaleX(1); } }
+
+    /* ════════════════════════════════════════
+       HERO AMBIENT ORB
+    ════════════════════════════════════════ */
+    .hero-orb {
+      position: absolute; width: 700px; height: 700px;
+      border-radius: 50%; pointer-events: none; z-index: 0;
+      background: radial-gradient(circle at center, rgba(99,102,241,0.09) 0%, transparent 65%);
+      top: -160px; left: 50%;
+      transform: translateX(-50%);
+      will-change: transform;
+      animation: orbDrift 12s ease-in-out infinite;
+    }
+    @keyframes orbDrift {
+      0%, 100% { transform: translateX(-50%) translateY(0px);   }
+      50%       { transform: translateX(-50%) translateY(-40px); }
+    }
   </style>
 </head>
 <body>
+
+<!-- PRELOADER -->
+<div id="preloader" aria-hidden="true">
+  <div class="pl-inner">
+    <div class="pl-logo">WebCraft<span class="pl-logo-dot"></span>PH</div>
+    <div class="pl-track"><div class="pl-fill"></div></div>
+  </div>
+</div>
 
 <!-- SCROLL PROGRESS BAR -->
 <div id="scroll-progress"></div>
@@ -796,6 +861,7 @@
 <!-- HERO -->
 <section class="hero">
   <div class="hero-grid-bg"><div class="hero-grid-fade"></div></div>
+  <div class="hero-orb" aria-hidden="true"></div>
   <div class="container" style="position:relative;z-index:1">
     <div class="hero-badge">
       <div class="hero-badge-dot"></div>
@@ -809,7 +875,7 @@
       <a href="#pricing" class="btn-primary">Choose Your Plan</a>
       <a href="#samples" class="btn-outline">See Sample Designs</a>
     </div>
-    <div class="hero-proof reveal">
+    <div class="hero-proof">
       <span class="proof-item"><span class="proof-num" data-counter data-target="50" data-suffix="+">50+</span> websites launched across PH</span>
       <span class="proof-sep">·</span>
       <span class="proof-item"><span class="proof-num">★★★★★</span> rated by clients</span>
@@ -1091,9 +1157,9 @@
     </div>
     <div class="pricing-grid">
 
-      <!-- BASIC -->
+      <!-- STARTER -->
       <div class="pricing-card reveal">
-        <div class="plan-tier" style="color:#047857">BASIC PLAN</div>
+        <div class="plan-tier" style="color:#047857">STARTER PLAN</div>
         <div class="plan-name">Starter Website</div>
         <div class="plan-tagline">Perfect for new and home-based businesses</div>
         <div class="plan-price" style="color:#047857"><sup>₱</sup>5,000</div>
@@ -1103,11 +1169,10 @@
           <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text"><strong>Up to 10 product/service listings</strong></div></li>
           <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">3 pages: Home, Products, Contact</div></li>
           <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">Mobile-responsive design</div></li>
-          <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">Contact form with email inquiry</div></li>
           <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">Facebook, Instagram & TikTok links</div></li>
-          <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">Google Maps embed</div></li>
-          <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">Basic SEO setup (title & meta tags)</div></li>
           <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">GCash / Maya payment info display</div></li>
+          <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">Order details sent via WhatsApp / Viber</div></li>
+          <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">Sign in with Google for customers</div></li>
           <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text"><strong>1 free revision included</strong></div></li>
           <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">Delivered in 3–5 business days</div></li>
           <li class="feature-item dim"><div class="fi no" aria-hidden="true">✗</div><div class="feature-text">Shopping cart / checkout</div></li>
@@ -1116,10 +1181,10 @@
         <a href="#contact" class="plan-cta cta-basic">Order Now</a>
       </div>
 
-      <!-- MEDIUM -->
+      <!-- GROWTH -->
       <div class="pricing-card popular reveal d1">
         <div class="card-badge badge-purple">MOST POPULAR</div>
-        <div class="plan-tier" style="color:var(--primary)">MEDIUM PLAN</div>
+        <div class="plan-tier" style="color:var(--primary)">GROWTH PLAN</div>
         <div class="plan-name">Growth Website</div>
         <div class="plan-tagline">For growing businesses that need more</div>
         <div class="plan-price" style="color:var(--primary)"><sup>₱</sup>12,000</div>
@@ -1129,13 +1194,14 @@
           <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text"><strong>Up to 50 product/service listings</strong></div></li>
           <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">Up to 7 custom pages</div></li>
           <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">Premium responsive design with animations</div></li>
-          <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">Online order form (no cart needed)</div></li>
-          <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">Facebook Messenger live chat button</div></li>
+          <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">3-step checkout flow</div></li>
+          <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">Admin dashboard for orders</div></li>
+          <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">Admin dashboard for sales</div></li>
+          <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">Order details via integrated WhatsApp + Viber</div></li>
+          <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">COA (Certificate of Analysis) viewer</div></li>
+          <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">Peptide calculator</div></li>
           <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">Image gallery with lightbox viewer</div></li>
-          <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">Blog section (up to 5 posts)</div></li>
-          <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">Email newsletter signup</div></li>
           <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">Viber / WhatsApp chat button</div></li>
-          <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">Advanced SEO + Google Business setup guide</div></li>
           <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text"><strong>3 free revisions</strong></div></li>
           <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text"><strong>1 month free maintenance</strong></div></li>
           <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">Delivered in 7–10 business days</div></li>
@@ -1156,7 +1222,10 @@
           <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text"><strong>Unlimited product listings</strong></div></li>
           <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">Full shopping cart & checkout system</div></li>
           <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text"><strong>GCash, Maya & credit card payments</strong></div></li>
-          <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">Cash on Delivery (COD) option</div></li>
+          <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">Order details via WhatsApp / Viber / Messenger</div></li>
+          <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">Integrated live chat option</div></li>
+          <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">COA (Certificate of Analysis) viewer</div></li>
+          <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">Peptide calculator</div></li>
           <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">Admin dashboard: manage products & orders</div></li>
           <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">Customer accounts & login portal</div></li>
           <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">Order tracking system</div></li>
@@ -1164,8 +1233,7 @@
           <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">Discount codes & voucher system</div></li>
           <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">Automated email order confirmations</div></li>
           <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">Product search, filters & categories</div></li>
-          <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">Google Analytics + sales dashboard</div></li>
-          <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">Facebook Shop / Instagram Shop integration</div></li>
+          <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">Sales dashboard</div></li>
           <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text"><strong>5 free revisions</strong></div></li>
           <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text"><strong>3 months free maintenance</strong></div></li>
           <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">1-hour free training session via Zoom</div></li>
@@ -1412,6 +1480,56 @@
 </footer>
 
 <script>
+/* ═══════════════════════════════════════════
+   0. PRELOADER + HERO ENTRANCE
+═══════════════════════════════════════════ */
+(function () {
+  const preloader = document.getElementById('preloader');
+  if (!preloader) return;
+
+  const noMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (noMotion) {
+    preloader.style.display = 'none';
+    return;
+  }
+
+  const heroItems = [
+    { sel: '.hero-badge',   delay: 0   },
+    { sel: '.hero h1',      delay: 140 },
+    { sel: '.hero-sub',     delay: 265 },
+    { sel: '.hero-actions', delay: 385 },
+    { sel: '.hero-proof',   delay: 510 },
+  ];
+
+  /* hide hero content while preloader is visible */
+  heroItems.forEach(({ sel }) => {
+    const el = document.querySelector(sel);
+    if (el) { el.style.opacity = '0'; el.style.transform = 'translateY(22px)'; }
+  });
+
+  /* after preloader fill completes (~1.6 s), dismiss and enter hero */
+  setTimeout(() => {
+    preloader.classList.add('pl-done');
+
+    heroItems.forEach(({ sel, delay }) => {
+      const el = document.querySelector(sel);
+      if (!el) return;
+      el.style.transition =
+        `opacity 0.75s cubic-bezier(0.16,1,0.3,1) ${delay}ms,` +
+        `transform 0.75s cubic-bezier(0.16,1,0.3,1) ${delay}ms`;
+      setTimeout(() => {
+        el.style.opacity   = '1';
+        el.style.transform = 'translateY(0)';
+      }, delay);
+    });
+
+    /* remove from DOM after fade-out completes */
+    setTimeout(() => preloader.remove(), 600);
+  }, 1650);
+})();
+
+
 /* ═══════════════════════════════════════════
    1. SCROLL PROGRESS BAR
 ═══════════════════════════════════════════ */
