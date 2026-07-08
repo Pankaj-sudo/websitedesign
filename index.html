@@ -512,20 +512,29 @@
     .faq-item {
       background: var(--surface); border: 1.5px solid var(--border);
       border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-sm);
+      transition: box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+    .faq-item:hover {
+      border-color: var(--border-mid);
+      box-shadow: var(--shadow-md);
     }
     .faq-question {
       width: 100%; background: none; border: none;
       padding: 18px 22px; display: flex; justify-content: space-between; align-items: center;
       cursor: pointer; font-weight: 600; font-size: 0.93rem; color: var(--text);
       font-family: inherit; text-align: left;
-      transition: background 0.2s;
+      transition: background-color 0.25s ease, color 0.25s ease;
     }
-    .faq-question:hover { background: var(--bg); }
-    .faq-arrow { font-size: 0.8rem; color: var(--primary); transition: transform 0.3s; }
-    .faq-answer { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.35s cubic-bezier(0.16,1,0.3,1); }
-    .faq-answer-inner { overflow: hidden; min-height: 0; padding: 0 22px 18px; font-size: 0.87rem; color: var(--text-muted); line-height: 1.75; }
+    .faq-question:hover { background-color: var(--bg); }
+    .faq-arrow { font-size: 0.8rem; color: var(--primary); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+    .faq-answer {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: max-height 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .faq-answer-inner { padding: 0 22px 18px; font-size: 0.87rem; color: var(--text-muted); line-height: 1.75; }
     .faq-item.open .faq-arrow  { transform: rotate(180deg); }
-    .faq-item.open .faq-answer { grid-template-rows: 1fr; }
     .faq-item.open .faq-question { color: var(--primary); }
 
     /* ─── CTA ─── */
@@ -1094,7 +1103,7 @@
       <!-- PROFESSIONAL PLAN -->
       <div class="sample-wrapper reveal d2">
         <div class="sample-tier-label">
-          <span class="sample-tier-pill" style="background:#FFFBEB;color:#92400E;border:1px solid #FDE68A">PROFESSIONAL PLAN</span>
+          <span class="sample-tier-pill" style="background:#FFFBEB;color:#92400E;border:1px solid #FDE68A">FULL E-COMMERCE</span>
           <span class="sample-tier-name">Professional Plan</span>
           <span class="sample-tier-price">₱25,000</span>
         </div>
@@ -1363,6 +1372,9 @@
       <p>Choose the most convenient way to pay for your website</p>
       <div class="payment-chips">
         <div class="payment-chip"><div class="chip-dot" style="background:#00AFEF"></div>GCash</div>
+        <div class="payment-chip"><div class="chip-dot" style="background:#A2DF1B"></div>Maya</div>
+        <div class="payment-chip"><div class="chip-dot" style="background:#0054A6"></div>BDO</div>
+        <div class="payment-chip"><div class="chip-dot" style="background:#059669"></div>Landbank</div>
       </div>
       <p style="margin-top:20px;font-size:0.79rem;color:var(--text-dim)">
         50% down payment upon ordering · 50% balance before website goes live
@@ -1414,28 +1426,24 @@
     </div>
     <div class="faq-list">
       <div class="faq-item reveal">
-        <button class="faq-question" aria-expanded="false">Is domain and hosting included in the price? <span class="faq-arrow" aria-hidden="true">▼</span></button>
-        <div class="faq-answer"><div class="faq-answer-inner">Domain and hosting are not included in the base price, but we will help you set it up. A domain costs around ₱1,000–₱2,000/year. We recommend Hostinger or SiteGround for best value.</div></div>
+        <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-1">Is domain and hosting included in the price? <span class="faq-arrow" aria-hidden="true">▼</span></button>
+        <div id="faq-answer-1" class="faq-answer"><div class="faq-answer-inner">Domain and hosting are not included in the base price, but we will help you set it up. A domain costs around ₱1,000–₱2,000/year. We recommend Hostinger or SiteGround for best value.</div></div>
       </div>
       <div class="faq-item reveal">
-        <button class="faq-question" aria-expanded="false">Can I upgrade my plan later? <span class="faq-arrow" aria-hidden="true">▼</span></button>
-        <div class="faq-answer"><div class="faq-answer-inner">Yes! You can upgrade anytime. You'll only pay the price difference between plans, plus any additional work. We'll reuse all existing content and design elements to keep costs low.</div></div>
+        <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-2">Can I upgrade my plan later? <span class="faq-arrow" aria-hidden="true">▼</span></button>
+        <div id="faq-answer-2" class="faq-answer"><div class="faq-answer-inner">Yes! You can upgrade (within 6 months). You'll only pay the price difference between plans, plus any additional work. We'll reuse all existing content and design elements to keep costs low.</div></div>
       </div>
       <div class="faq-item reveal">
-        <button class="faq-question" aria-expanded="false">What do I need to provide to get started? <span class="faq-arrow" aria-hidden="true">▼</span></button>
-        <div class="faq-answer"><div class="faq-answer-inner">We'll need: (1) your logo or preferred design style, (2) photos of your products or services, (3) descriptions and prices, (4) contact info and social media links, and (5) preferred color scheme. We'll send you a complete checklist after you order.</div></div>
+        <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-3">What do I need to provide to get started? <span class="faq-arrow" aria-hidden="true">▼</span></button>
+        <div id="faq-answer-3" class="faq-answer"><div class="faq-answer-inner">We'll need: (1) your logo or preferred design style, (2) photos of your products or services, (3) descriptions and prices, (4) contact info and social media links, and (5) preferred color scheme. We'll send you a complete checklist after you order.</div></div>
       </div>
       <div class="faq-item reveal">
-        <button class="faq-question" aria-expanded="false">Will my website appear on Google? <span class="faq-arrow" aria-hidden="true">▼</span></button>
-        <div class="faq-answer"><div class="faq-answer-inner">Yes! Every plan includes basic SEO setup, title tags, meta descriptions, and structured content. We also recommend setting up a free Google Business Profile for faster local search visibility.</div></div>
+        <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-4">Do I need to know how to code to manage my website? <span class="faq-arrow" aria-hidden="true">▼</span></button>
+        <div id="faq-answer-4" class="faq-answer"><div class="faq-answer-inner">Not at all. For Starter and Growth plans, we'll walk you through simple content updates. For Professional Plan, you get a user-friendly Admin Dashboard, as easy as using a Shopee Seller Center. Plus there's a free 1-hour Zoom training session included.</div></div>
       </div>
       <div class="faq-item reveal">
-        <button class="faq-question" aria-expanded="false">Do I need to know how to code to manage my website? <span class="faq-arrow" aria-hidden="true">▼</span></button>
-        <div class="faq-answer"><div class="faq-answer-inner">Not at all. For Starter and Growth plans, we'll walk you through simple content updates. For Professional Plan, you get a user-friendly Admin Dashboard, as easy as using a Shopee Seller Center. Plus there's a free 1-hour Zoom training session included.</div></div>
-      </div>
-      <div class="faq-item reveal">
-        <button class="faq-question" aria-expanded="false">What if I'm not satisfied with the design? <span class="faq-arrow" aria-hidden="true">▼</span></button>
-        <div class="faq-answer"><div class="faq-answer-inner">No problem. Every plan includes free revisions (1 for Starter, 2 for Growth, 3 for Professional Plan). We keep adjusting until you're completely happy. Your satisfaction is our top priority.</div></div>
+        <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-5">What if I'm not satisfied with the design? <span class="faq-arrow" aria-hidden="true">▼</span></button>
+        <div id="faq-answer-5" class="faq-answer"><div class="faq-answer-inner">No problem. Every plan includes free revisions (1 for Starter, 2 for Growth, 3 for Professional Plan). We keep adjusting until you're completely happy. Your satisfaction is our top priority.</div></div>
       </div>
     </div>
   </div>
@@ -1710,14 +1718,50 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 document.querySelectorAll('.faq-question').forEach(q => {
   q.addEventListener('click', () => {
     const item = q.closest('.faq-item');
+    const answer = item.querySelector('.faq-answer');
     const isOpen = item.classList.contains('open');
+
+    // Close all other FAQ items with transitions
     document.querySelectorAll('.faq-item').forEach(i => {
-      i.classList.remove('open');
-      i.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+      if (i !== item && i.classList.contains('open')) {
+        const otherAnswer = i.querySelector('.faq-answer');
+        const otherQuestion = i.querySelector('.faq-question');
+        
+        // Temporarily set height to scrollHeight to start transition from a known value
+        otherAnswer.style.maxHeight = otherAnswer.scrollHeight + 'px';
+        otherAnswer.offsetHeight; // Force reflow
+        
+        i.classList.remove('open');
+        otherQuestion.setAttribute('aria-expanded', 'false');
+        otherAnswer.style.maxHeight = '0';
+        otherAnswer.style.opacity = '0';
+      }
     });
-    if (!isOpen) {
+
+    if (isOpen) {
+      // Collapse current item
+      answer.style.maxHeight = answer.scrollHeight + 'px';
+      answer.offsetHeight; // Force reflow
+      
+      item.classList.remove('open');
+      q.setAttribute('aria-expanded', 'false');
+      answer.style.maxHeight = '0';
+      answer.style.opacity = '0';
+    } else {
+      // Expand current item
       item.classList.add('open');
       q.setAttribute('aria-expanded', 'true');
+      answer.style.maxHeight = answer.scrollHeight + 'px';
+      answer.style.opacity = '1';
+      
+      // Once transition finishes, set max-height to none to ensure responsiveness
+      const onTransitionEnd = (e) => {
+        if (e.propertyName === 'max-height' && item.classList.contains('open')) {
+          answer.style.maxHeight = 'none';
+          answer.removeEventListener('transitionend', onTransitionEnd);
+        }
+      };
+      answer.addEventListener('transitionend', onTransitionEnd);
     }
   });
 });
