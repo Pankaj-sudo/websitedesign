@@ -672,15 +672,18 @@
     .why-row:hover .why-icon { transform: scale(1.15); transition: transform 0.2s ease-out; }
 
     /* ── Card shimmer sweep on hover ── */
-    .pricing-card { overflow: hidden; }
-    .pricing-card::after {
+    .pricing-card { overflow: visible; }
+    .pricing-card-shimmer {
+      position: absolute; inset: 0; border-radius: inherit; overflow: hidden; pointer-events: none; z-index: 0;
+    }
+    .pricing-card-shimmer::after {
       content: ''; position: absolute; top: 0; left: -100%;
       width: 60%; height: 100%;
       background: linear-gradient(105deg, transparent 0%, rgba(255,255,255,0.55) 50%, transparent 100%);
       transform: skewX(-15deg);
       transition: none; pointer-events: none;
     }
-    .pricing-card:hover::after {
+    .pricing-card:hover .pricing-card-shimmer::after {
       animation: shimmerSweep 0.6s ease forwards;
     }
     @keyframes shimmerSweep {
@@ -1088,11 +1091,11 @@
         <p class="sample-caption">7-page growth layout · Photo gallery · Appointment form · Messenger chat · Blog section</p>
       </div>
 
-      <!-- FULL ONLINE STORE -->
+      <!-- PROFESSIONAL PLAN -->
       <div class="sample-wrapper reveal d2">
         <div class="sample-tier-label">
-          <span class="sample-tier-pill" style="background:#FFFBEB;color:#92400E;border:1px solid #FDE68A">FULL ONLINE STORE</span>
-          <span class="sample-tier-name">Full Online Store</span>
+          <span class="sample-tier-pill" style="background:#FFFBEB;color:#92400E;border:1px solid #FDE68A">PROFESSIONAL PLAN</span>
+          <span class="sample-tier-name">Professional Plan</span>
           <span class="sample-tier-price">₱25,000</span>
         </div>
         <div class="browser-frame">
@@ -1152,7 +1155,7 @@
             </div>
           </div>
         </div>
-        <p class="sample-caption">Full e-commerce · Cart & checkout · Admin dashboard · GCash/Maya payments</p>
+        <p class="sample-caption">Full e-commerce · Cart & checkout · Admin dashboard · QR payment system</p>
       </div>
 
     </div>
@@ -1170,6 +1173,7 @@
 
       <!-- STARTER -->
       <div class="pricing-card reveal">
+        <div class="pricing-card-shimmer"></div>
         <div class="plan-tier" style="color:#047857">STARTER PLAN</div>
         <div class="plan-name">Starter Website</div>
         <div class="plan-tagline">Perfect for new and home-based businesses</div>
@@ -1181,7 +1185,7 @@
           <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">3 pages: Home, Products, Contact</div></li>
           <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">Mobile-responsive design</div></li>
           <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">Facebook, Instagram & TikTok links</div></li>
-          <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">GCash / Maya payment info display</div></li>
+          <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">QR payment system</div></li>
           <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">Order details sent via WhatsApp / Viber</div></li>
           <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">Sign in with Google for customers</div></li>
           <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text"><strong>1 free revision included</strong></div></li>
@@ -1194,6 +1198,7 @@
 
       <!-- GROWTH -->
       <div class="pricing-card popular reveal d1">
+        <div class="pricing-card-shimmer"></div>
         <div class="card-badge badge-purple">MOST POPULAR</div>
         <div class="plan-tier" style="color:var(--primary)">GROWTH PLAN</div>
         <div class="plan-name">Growth Website</div>
@@ -1204,10 +1209,7 @@
         <ul class="feature-list">
           <!-- Inherited from Starter -->
           <li style="font-size: 0.75rem; font-weight: 700; color: var(--text-dim); text-transform: uppercase; margin-bottom: 8px; list-style: none; letter-spacing: 0.05em;">Everything in Starter</li>
-          <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">Mobile-responsive design</div></li>
-          <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">Facebook, Instagram & TikTok links</div></li>
-          <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">GCash / Maya payment info display</div></li>
-          <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">Sign in with Google for customers</div></li>
+          <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">Includes every feature from the Starter Website</div></li>
 
           <!-- Growth Exclusive -->
           <li style="border-top: 1px dashed var(--border-mid); margin: 16px 0; list-style: none;"></li>
@@ -1230,11 +1232,12 @@
         <a href="#contact" class="plan-cta cta-medium">Order Now</a>
       </div>
 
-      <!-- FULL ONLINE STORE -->
+      <!-- PROFESSIONAL PLAN -->
       <div class="pricing-card gold-card reveal d2">
-        <div class="card-badge badge-gold">FULL E-COMMERCE</div>
-        <div class="plan-tier" style="color:var(--accent)">FULL ONLINE STORE PLAN</div>
-        <div class="plan-name">Full Online Store</div>
+        <div class="pricing-card-shimmer"></div>
+        <div class="card-badge badge-gold">PROFESSIONAL PLAN</div>
+        <div class="plan-tier" style="color:var(--accent)">PROFESSIONAL PLAN</div>
+        <div class="plan-name">Professional Plan</div>
         <div class="plan-tagline">Complete e-commerce for serious sellers</div>
         <div class="plan-price" style="color:var(--accent)"><sup>₱</sup>25,000</div>
         <div class="plan-price-note">One-time payment · No monthly fees</div>
@@ -1242,21 +1245,15 @@
         <ul class="feature-list">
           <!-- Inherited from Growth -->
           <li style="font-size: 0.75rem; font-weight: 700; color: var(--text-dim); text-transform: uppercase; margin-bottom: 8px; list-style: none; letter-spacing: 0.05em;">Everything in Growth</li>
-          <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">Mobile-responsive design</div></li>
-          <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">Facebook, Instagram & TikTok links</div></li>
-          <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">GCash / Maya payment info display</div></li>
-          <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">Sign in with Google for customers</div></li>
-          <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">Premium responsive design with animations</div></li>
-          <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">COA (Certificate of Analysis) viewer</div></li>
-          <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">Peptide calculator</div></li>
-          <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">Image gallery with lightbox viewer</div></li>
+          <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">Includes every feature from the Growth Website</div></li>
 
           <!-- Online Store Exclusive -->
           <li style="border-top: 1px dashed var(--border-mid); margin: 16px 0; list-style: none;"></li>
           <li style="font-size: 0.75rem; font-weight: 700; color: var(--accent); text-transform: uppercase; margin-bottom: 12px; list-style: none; letter-spacing: 0.05em;">Online Store Exclusive</li>
           <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text"><strong>Unlimited product listings</strong></div></li>
+          <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">Up to 12 custom pages</div></li>
           <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">Full shopping cart & checkout system</div></li>
-          <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text"><strong>GCash & Maya payments</strong></div></li>
+          <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text"><strong>QR payment system</strong></div></li>
           <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">Order details via WhatsApp / Viber / Messenger</div></li>
           <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">Integrated live chat option</div></li>
           <li class="feature-item"><div class="fi yes">✓</div><div class="feature-text">Admin dashboard: manage products & orders</div></li>
@@ -1293,12 +1290,12 @@
             <th style="width:35%">Feature</th>
             <th>Starter<br><span style="color:#047857;font-weight:800">₱5,000</span></th>
             <th class="col-purple">Growth<br><span style="font-weight:800">₱12,000</span></th>
-            <th class="col-gold">Full Online Store<br><span style="font-weight:800">₱25,000</span></th>
+            <th class="col-gold">Professional Plan<br><span style="font-weight:800">₱25,000</span></th>
           </tr>
         </thead>
         <tbody>
           <tr class="cat-row"><td colspan="4">Design & Pages</td></tr>
-          <tr><td>Number of Pages</td><td>3 pages</td><td><span class="tag tag-indigo">7 pages</span></td><td><span class="tag tag-amber">Unlimited</span></td></tr>
+          <tr><td>Number of Pages</td><td>3 pages</td><td><span class="tag tag-indigo">7 pages</span></td><td><span class="tag tag-amber">Up to 12 pages</span></td></tr>
           <tr><td>Product Listings</td><td>Up to 10</td><td><span class="tag tag-indigo">Up to 50</span></td><td><span class="tag tag-amber">Unlimited</span></td></tr>
           <tr><td>Mobile-Responsive Design</td><td><span class="chk">✓</span></td><td><span class="chk">✓</span></td><td><span class="chk">✓</span></td></tr>
           <tr><td>Premium Animations</td><td><span class="crs" aria-hidden="true">✗</span></td><td><span class="chk">✓</span></td><td><span class="chk">✓</span></td></tr>
@@ -1309,10 +1306,10 @@
           <tr><td>Viber / WhatsApp Button</td><td><span class="crs" aria-hidden="true">✗</span></td><td><span class="chk">✓</span></td><td><span class="chk">✓</span></td></tr>
 
           <tr class="cat-row"><td colspan="4">E-Commerce Features</td></tr>
-          <tr><td>GCash / Maya Payment Info Display</td><td><span class="chk">✓</span></td><td><span class="chk">✓</span></td><td><span class="chk">✓</span></td></tr>
+          <tr><td>QR Payment System</td><td><span class="chk">✓</span></td><td><span class="chk">✓</span></td><td><span class="chk">✓</span></td></tr>
           <tr><td>Online Order Form</td><td><span class="crs" aria-hidden="true">✗</span></td><td><span class="chk">✓</span></td><td><span class="chk">✓</span></td></tr>
           <tr><td>Shopping Cart & Checkout</td><td><span class="crs" aria-hidden="true">✗</span></td><td><span class="crs" aria-hidden="true">✗</span></td><td><span class="chk">✓</span></td></tr>
-          <tr><td>GCash / Maya Payment Processing</td><td><span class="crs" aria-hidden="true">✗</span></td><td><span class="crs" aria-hidden="true">✗</span></td><td><span class="chk">✓</span></td></tr>
+          <tr><td>QR Payment Processing</td><td><span class="crs" aria-hidden="true">✗</span></td><td><span class="crs" aria-hidden="true">✗</span></td><td><span class="chk">✓</span></td></tr>
           <tr><td>Cash on Delivery (COD) Option</td><td><span class="crs" aria-hidden="true">✗</span></td><td><span class="crs" aria-hidden="true">✗</span></td><td><span class="chk">✓</span></td></tr>
           <tr><td>Customer Accounts & Login</td><td><span class="crs" aria-hidden="true">✗</span></td><td><span class="crs" aria-hidden="true">✗</span></td><td><span class="chk">✓</span></td></tr>
           <tr><td>Discount & Coupon Codes</td><td><span class="crs" aria-hidden="true">✗</span></td><td><span class="crs" aria-hidden="true">✗</span></td><td><span class="chk">✓</span></td></tr>
@@ -1352,7 +1349,7 @@
       <div class="process-step reveal d2">
         <div class="step-num">3</div>
         <h4>Review & Revisions</h4>
-        <p>We will schedule another 30-minute call to present the completed website and discuss any revisions you would like. You will have one free revision.</p>
+        <p>We will schedule another 30-minute call to present the completed website and discuss any revisions you would like. You will have free revisions based on your package.</p>
       </div>
     </div>
   </div>
@@ -1399,10 +1396,10 @@
       </div>
       <div class="testi-card reveal d2">
         <div class="testi-stars">★★★★★</div>
-        <p class="testi-text">"We used to only sell on Shopee. Now we have our own online store with real checkout and GCash payment. Better margins, full control of our brand. Full Online Store plan is totally worth it!"</p>
+        <p class="testi-text">"We used to only sell on Shopee. Now we have our own online store with real checkout and GCash payment. Better margins, full control of our brand. Professional plan is totally worth it!"</p>
         <div class="testi-author">
           <div class="testi-avatar">AL</div>
-          <div><div class="testi-name">Ana L.</div><div class="testi-role">Clothing Brand, Cebu · Full Online Store Plan</div></div>
+          <div><div class="testi-name">Ana L.</div><div class="testi-role">Clothing Brand, Cebu · Professional Plan</div></div>
         </div>
       </div>
     </div>
@@ -1418,7 +1415,7 @@
     <div class="faq-list">
       <div class="faq-item reveal">
         <button class="faq-question" aria-expanded="false">Is domain and hosting included in the price? <span class="faq-arrow" aria-hidden="true">▼</span></button>
-        <div class="faq-answer"><div class="faq-answer-inner">Domain and hosting are not included in the base price, but we will help you set it up. A domain costs around ₱700–₱1,000/year and hosting is around ₱1,500–₱3,000/year. We recommend Hostinger or SiteGround for best value.</div></div>
+        <div class="faq-answer"><div class="faq-answer-inner">Domain and hosting are not included in the base price, but we will help you set it up. A domain costs around ₱1,000–₱2,000/year. We recommend Hostinger or SiteGround for best value.</div></div>
       </div>
       <div class="faq-item reveal">
         <button class="faq-question" aria-expanded="false">Can I upgrade my plan later? <span class="faq-arrow" aria-hidden="true">▼</span></button>
@@ -1434,11 +1431,11 @@
       </div>
       <div class="faq-item reveal">
         <button class="faq-question" aria-expanded="false">Do I need to know how to code to manage my website? <span class="faq-arrow" aria-hidden="true">▼</span></button>
-        <div class="faq-answer"><div class="faq-answer-inner">Not at all. For Starter and Growth plans, we'll walk you through simple content updates. For Full Online Store, you get a user-friendly Admin Dashboard, as easy as using a Shopee Seller Center. Plus there's a free 1-hour Zoom training session included.</div></div>
+        <div class="faq-answer"><div class="faq-answer-inner">Not at all. For Starter and Growth plans, we'll walk you through simple content updates. For Professional Plan, you get a user-friendly Admin Dashboard, as easy as using a Shopee Seller Center. Plus there's a free 1-hour Zoom training session included.</div></div>
       </div>
       <div class="faq-item reveal">
         <button class="faq-question" aria-expanded="false">What if I'm not satisfied with the design? <span class="faq-arrow" aria-hidden="true">▼</span></button>
-        <div class="faq-answer"><div class="faq-answer-inner">No problem. Every plan includes free revisions (1 for Starter, 3 for Growth, 5 for Full Online Store). We keep adjusting until you're completely happy. Your satisfaction is our top priority.</div></div>
+        <div class="faq-answer"><div class="faq-answer-inner">No problem. Every plan includes free revisions (1 for Starter, 3 for Growth, 5 for Professional Plan). We keep adjusting until you're completely happy. Your satisfaction is our top priority.</div></div>
       </div>
     </div>
   </div>
